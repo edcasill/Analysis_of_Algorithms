@@ -1,0 +1,894 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass IEEEtran
+\begin_preamble
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsfonts}\usepackage{algorithmic}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\end_preamble
+\options conference
+\use_default_options false
+\maintain_unincluded_children no
+\language english
+\language_package none
+\inputencoding auto-legacy
+\fontencoding default
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Homework II - Analysis of Algorithms
+\end_layout
+
+\begin_layout Author
+\begin_inset Flex Author Name
+status collapsed
+
+\begin_layout Plain Layout
+Edwing Alexis Casillas Valencia
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Info
+type  "fixdate"
+arg   "loclong@2025-09-21"
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+maketitle
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+In this homework we analyze the Gauss's trick and the use of a XOR into a classic multiplication program to reduce the execution time,
+ measuring it with the 
+\begin_inset Quotes eld
+\end_inset
+
+sys/time.h
+\begin_inset Quotes erd
+\end_inset
+
+ library.
+ Also,
+ we practice the complexity calculation with three recursion exercises,
+ calculating the upper and lower bounds of the asymptotic.
+\end_layout
+
+\begin_layout Keywords
+Gauss's Trick,
+ Time complexity,
+ Recursion,
+ Mater Method
+\end_layout
+
+\begin_layout Section*
+Problem 1
+\end_layout
+
+\begin_layout Standard
+(50 pts) We have the following code “Classic_Bit_Multiplication.c” which implements the old version of bit multiplication.
+ Your task are two for this:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+(a) Implement the Gauss Trick,
+ as you can see we have something quite simple when reaching the base case:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+if (n == 1){
+\end_layout
+
+\begin_layout Standard
+return a∗b ;
+\end_layout
+
+\begin_layout Standard
+}
+\end_layout
+
+\begin_layout Standard
+This uses the ALU for integer multiplication,
+ but it can be substituted for something more efficient using xor because.
+ For example,
+ we can use xor for unsigned integer addition:
+\end_layout
+
+\begin_layout Standard
+unsigned i n t bitwise_add ( unsigned i n t x ,
+ unsigned i n t y ) {
+\end_layout
+
+\begin_layout Standard
+unsigned int carry ;
+\end_layout
+
+\begin_layout Standard
+while ( y != 0) {
+\end_layout
+
+\begin_layout Standard
+carry = x & y ;
+\end_layout
+
+\begin_layout Standard
+x = x ^ y ;
+\end_layout
+
+\begin_layout Standard
+y = carry << 1 ;
+\end_layout
+
+\begin_layout Standard
+}
+\end_layout
+
+\begin_layout Standard
+return x ;
+\end_layout
+
+\begin_layout Standard
+}
+\end_layout
+
+\end_deeper
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+(b) Please compare the time complexity between both implementations by using the “sys/-time.h” using gettimeofday() for higher precision.
+\end_layout
+
+\begin_layout Subsection*
+Answer:
+\end_layout
+
+\begin_layout Standard
+We can observe that temp3 and temp4 are always in addition,
+ and we can calculate that term before entering the return of the function,
+ but is not as simple of doing that addition.
+ Also,
+ we can see that the calculation for the four terms is similar to a second grade equation with the following form.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+(a+b)(a+b)=a^{2}+2ab+b^{2}\label{eq-1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Where 
+\begin_inset Formula $a^{2}$
+\end_inset
+
+ is a_l * b_l,
+ 
+\begin_inset Formula $b^{2}$
+\end_inset
+
+ is a_r * b_r and 
+\begin_inset Formula $2ab$
+\end_inset
+
+ is the addition of temp3 and temp4.
+ It's a summation of 4 terms that we can reduce to 3,
+ passing the addition of term3 and term4 in one term calculation,
+ which I'm going to call new_temp and has the following form:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+newtemp=multiplication(a_{l}+a_{r},b_{l}+b_{r},size,mask)\label{eq-2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This new temp gives me the complete result from the multiplication of a with b,
+ but due we have bit-to-bit operations with each temp at the moment of return the result of each function call,
+ we now have to obtain only the addition of the middle term (2ab).
+ To do this,
+ we just need to subtract temp1 and temp2 of it.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+op=newtemp-temp1-temp2\label{eq-3}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We this,
+ now we can change the return of the function with the following
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+temp2+((op)<<size)+(temp1<<n)\label{eq-4}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If we count the number of calls from the function to itself before doing this modification,
+ we can see that it does eight times;
+ after the modification it does six times.
+ This matches with the Gauss's trick because Gauss use a summation of the natural numbers,
+ and we use a summation of products to obtain our result.
+\end_layout
+
+\begin_layout Standard
+To substitute the a*b section with a XOR,
+ we can use the left and right shifts on our number and use the bitwise_add on them to simulate the AND behavior.
+ Why?,
+ because we want that the bit-to-bit operation returns us 1 when our tow terms are 1.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centerline{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename xor.png
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+XOR multiplication
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The execution time using both implementations where approx.
+ 275 microseconds,
+ without the implementations where approx.
+ 320 microseconds.
+ In some runs,
+ the program without the implementations where quicker than the one with the implementations,
+ but the results fluctuate too much compared with the one with both implementations.
+ 
+\end_layout
+
+\begin_layout Standard
+\SpecialChar ligaturebreak
+
+\end_layout
+
+\begin_layout Section*
+Problem 2
+\end_layout
+
+\begin_layout Standard
+(50 Points) Give asymptotic upper and lower bounds for T(n) in:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+(a) 
+\begin_inset Formula $T(n)=T(n−1)+n^{c},$
+\end_inset
+
+ where 
+\begin_inset Formula $c\geq1$
+\end_inset
+
+ is a constant.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+(b) 
+\begin_inset Formula $T(n)=T(√n)+1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+(c) 
+\begin_inset Formula $T(n)=5T\left(\frac{n}{2}\right)+\frac{n}{logn}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Answer:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $T(n)=T(n−1)+n^{c},$
+\end_inset
+
+ where 
+\begin_inset Formula $c\geq1$
+\end_inset
+
+ is a constant.
+\end_layout
+
+\begin_layout Standard
+We can calculate the first terms to see the behavior of the equation.
+ For n=2 we have
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+T(2)=T(1)+1^{c}\label{eq-5}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+for n=3 we have
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+T(3)=T(2)+2^{c}=T(1)+1^{c}+2^{c}\label{eq-6}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+for n=4 we have
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+T(4)=T(3)+3^{c}=T(1)+1^{c}+2^{c}+3^{c}\label{eq-7}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can notice that we have a sum of powers,
+ and 
+\begin_inset Formula $j\leq n^{c}$
+\end_inset
+
+,
+ for all 
+\begin_inset Formula $j\leq n$
+\end_inset
+
+,
+ so we'll have
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+T(n)\leq T(0)+n(n^{c})\leq n^{c+1}\label{eq-8}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This give us the following complexity for the upper bound
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+T(n)=O(n^{c+1})\label{eq-9}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For the lower bound we have
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\ensuremath{\sum_{i=1}^{n}j^{c}}\geq\intop_{0}^{n}x^{c}=\frac{n^{c+1}}{c+1}\label{eq-10}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Due 
+\begin_inset Formula $x^{c}$
+\end_inset
+
+ is increasing and a convex function in 
+\begin_inset Formula $[0,\infty)$
+\end_inset
+
+,
+ we'll have
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+T(n)=\Omega(n^{c+1})\label{eq-11}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can observe that the upper and lower bounds are equals,
+ so we can say that we have a tight 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T(n)=\Theta(n^{c+1})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $T(n)=T(√n)+1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Let N0 > 1 a constant,
+ and suppose that t(n) satisfies
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+t(n)=t(√n)+1\qquad(n>N0)\label{eq-12}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with base condition 
+\begin_inset Formula $t(n)=\Theta(1)$
+\end_inset
+
+ for 
+\begin_inset Formula $n\leq N_{0}$
+\end_inset
+
+.
+ Then,
+ for all n > 
+\begin_inset Formula $N_{0}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+t(N0)+\frac{lnlnn−lnlnN0}{ln2}≤t(n)≤t(N0)+1+\frac{lnlnn−lnlnN0}{ln2}\label{eq-13}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In particular,
+ 
+\begin_inset Formula $t(n)=\Theta(loglogn)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Proof
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $x=ln\:n$
+\end_inset
+
+ and 
+\begin_inset Formula $x_{0}=lnN_{0}$
+\end_inset
+
+,
+ define 
+\begin_inset Formula $s(x)=t(e^{x})$
+\end_inset
+
+.
+ The recurrence is as follow
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+s(x)=s(\frac{x}{2})+1\label{eq-14}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+After process k times,
+ we have:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+s(x)=s(\frac{x}{2^{k}})+k\label{eq-15}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+the process stops when 
+\begin_inset Formula $\frac{x}{2^{k}}\leq x_{0}$
+\end_inset
+
+,
+ that is to say,
+ when 
+\begin_inset Formula $2^{k}\geq\frac{x}{x_{0}}$
+\end_inset
+
+.
+ Consider 
+\begin_inset Formula $g(u)=\frac{1}{uln2}$
+\end_inset
+
+,
+ which is decreasing in 
+\begin_inset Formula $[0,\infty)$
+\end_inset
+
+.
+ Each step reduce x to x/2 it 
+\begin_inset Quotes eld
+\end_inset
+
+consumes
+\begin_inset Quotes erd
+\end_inset
+
+ exactly
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\int_{x_{0}}^{x}g(u)du=\int_{x/2}^{x}\frac{du}{uln2}=\frac{lnx−ln(x/2)}{ln2}=1\label{eq-16}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Applying the integral test (with a possible step overshoot in the last interval) we have 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\int_{x_{0}}^{x}g(u)du\leq k\leq1+\int_{x_{0}}^{x}g(u)du\label{eq-17}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\int_{x_{0}}^{x}g(u)du=\frac{lnx−lnx_{0}}{ln2}=\frac{lnlnn-lnlnN_{0}}{ln2}\label{eq-18}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+returning at t(n)=s(x) we obtain
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+t(N_{0})=\frac{lnlnn-lnlnN_{0}}{ln2}\leq t(N_{0})+1+\frac{lnlnn-lnlnN_{0}}{ln2}\label{eq-19}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The additive constants shows that 
+\begin_inset Formula $t(n)=\Theta(loglogn)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\SpecialChar ligaturebreak
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $T(n)=5T(\frac{n}{2})+\frac{n}{logn}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can observe that it has the form of the Master Method,
+ so we have a=5 and b=2,
+ with this,
+ our watershed function is calculated as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+n^{log_{b}a}=n^{log_{2}5}\approx n^{2.321928095}\label{eq-20}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Evaluating with n=2 the watershed function and the driver function,
+ we observe that the driver function is slower than the watershed,
+ so it corresponds to the first case of the Master Method
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+T(n)=\Theta(n^{log_{b}a})=\Theta(n^{log_{2}5})\approx n^{2.321928095}\label{eq-21}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
