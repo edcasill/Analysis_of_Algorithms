@@ -1,0 +1,136 @@
+\documentclass[conference, onecolumn]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{captdef}
+\usepackage{float}
+\usepackage{bm}
+\usepackage{anyfontsize}
+\usepackage{enumerate}
+\usepackage{caption}
+\author{Edwing Alexis Casillas Valencia\\
+\today}
+\title{Homework III - Analysis of Algorithms}
+%\date{October 7 2025}
+\graphicspath{C:\Users\Narut\OneDrive\Documentos\Maestria\Cuatri 1\Algoritmos\Analysis_of_Algorithms\Homework_3\doc\img}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\pagenumbering{arabic}
+
+\begin{abstract}
+In this homework, we analyze the Tim Sort algorithm on Python and compare it with the three linear sorts (Counting, Radix and Bucket sorts).
+\end{abstract}
+
+\section*{Problem 1}
+Implement the three linear sortings using C
+\begin{enumerate}
+	\item [(a)] Counting Sort
+	\item[(b)] Radix Sort
+	\begin{enumerate}
+		\item [i.] Queue version
+		\item[ii.] Give its new complexity in big O and prove it
+	\end{enumerate}
+	\item[(c)] Bucketsort
+\end{enumerate}
+
+\subsection*{Answer}
+Attached to this document are the three linear sortings in C.\\The complexity for Radix sort using queues is
+\begin{equation}
+	T(n, d) = O(1) + d * [O(n) + O(n + 10)]
+\end{equation}
+Simplifying we have
+\begin{equation}
+	T(n, d)=O(1) + d * [O(2n + 10)]
+\end{equation}
+\begin{equation}
+	T(n, d)=O(1) + O(2dn + 10d)
+\end{equation}
+\begin{equation}
+	T(n)=O(d * n)
+\end{equation}
+where d is the number of digits on the array. Also, there is an implementation on the code to confirm this, and it give us the following result.
+\begin{center}
+\includegraphics[scale=0.7]{img/comp.png}
+\captionof{figure}{Probe of O(d*n)}
+\end{center}
+Here we can see that when d increases from 2 to 6 (having n=1000), the execution time remains with the same value, and when n increases, the time value also increases d times. So, what does this means?, it means that when we have a constant value of d, the behavior is O(n), and when we have a non constant value of d, we have O(d).
+The last column show us that proportion of time against the behavior O(d*n)
+\newline
+
+\section*{Problem 2}
+Compare them against Tim Sort the one in Python
+\begin{enumerate}
+	\item[(a)] Please provide with plots
+	\item[(b)] Explain why the differences
+	\begin{enumerate}
+		\item[i.] Use the papers
+		\begin{enumerate}
+			\item[A.] Auger, Nicolas; Nicaud, Cyril; Pivoteau, Carine (2015). "Merge
+			Strategies: from Merge Sort to TimSort"
+			\item[B.] Auger, Jugé, Nicaud, Pivoteau (2018). "On the Worst-Case
+			Complexity of TimSort"
+		\end{enumerate}
+	\end{enumerate}
+\end{enumerate}
+
+\subsection*{Answer}
+(a)
+Here are the plots of execution time, taking an average time of each sorting algorithm after running 5 times each one.
+
+\begin{center}
+	\includegraphics[scale=0.9]{img/counting.png}
+	\captionof{figure}{Counting sort}
+\end{center}
+\begin{center}
+	\includegraphics[scale=0.7]{img/radix.png}
+	\captionof{figure}{Radix sort using queue}
+\end{center}
+\begin{center}
+	\includegraphics[scale=0.8]{img/bucket.png}
+	\captionof{figure}{Bucket sort}
+\end{center}
+\begin{center}
+	\includegraphics[scale=0.8]{img/timsort.png}
+	\captionof{figure}{Tim sort (167 microseconds)}
+\end{center}
+Also here is their asymptotic behavior
+\begin{center}
+	\includegraphics[scale=0.7]{img/ideal.png}
+	\captionof{figure}{Asymptotic behavior}
+\end{center}
+(b) We can see that the execution time of Tim sort is less than the linear ones. This is due Tim sort is implemented as a hybrid of Merge sort and Insertion Sort, using a fusion of its recent runs on the system cache. This hybrid has a complexity of O(n log n) on the worst case and O(n) on the best case. Unfortunately, to reach the best case, we need to apply a pre-sorting on the input array in order to help the Tim sort algorithm; in fact, Tim sort uses stacks to drive the runs ensuring that the length of the runs grow at least as fast as Fibonacci numbers, keeping the stack height within a logarithmic limit.
+
+Couting Sort and radix sort work more efficiently for integers with a smaller range. Bucket Sort assumes that the data is already uniformly distributed.
+\newline
+One point to keep in mind is that Tim Sort is a more general approach; it works really good with partially sorted data. This means that there will be some cases that even if it's pretty good, another algorithms could be a better approach for specific data types as you can see in the following image.
+
+\begin{center}
+	\includegraphics[scale=0.5]{img/Figure_1.png}
+	\captionof{figure}{specific cases}
+\end{center}  
+Complexity between algorithms are on the following table.
+
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		Algorithm &Worst Case &Average Case\\
+		\hline
+		Counting Sort & $O(n + k)$ &$O(n)$\\
+		\hline
+		Radix Sort &$O(d*k)$ &$O(n)$\\
+		\hline
+		Bucket Sort &$O(n^2)$ &$O(n)$\\
+		\hline
+		Tim Sort &$O(nlogn)$ &$O(n)$\\
+		\hline
+	\end{tabular}
+	\caption{Algorithms Complexity}
+\end{table}
+
+\end{document}
