@@ -1,0 +1,17 @@
+digraph Bellman_Ford{
+    rankdir=LR;
+    N0 [label="N0"];
+    N1 [label="N1"];
+    N2 [label="N2"];
+    N3 [label="N3"];
+    N4 [label="N4"];
+
+    N0 -> N1 [label="6"];
+    N0 -> N2 [label="7"];
+    N1 -> N2 [label="8"];
+    N1 -> N3 [label="5"];
+    N1 -> N4 [label="-4"];
+    N2 -> N3 [label="-2"];
+    N2 -> N4 [label="9"];
+    N3 -> N1 [label="-2"];
+}
